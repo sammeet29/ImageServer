@@ -32,37 +32,37 @@ int main(int argc, char **argv)
 	haddrp = inet_ntoa(clientaddr.sin_addr);
 	printf("server connected to %s (%s)\n", hp->h_name, haddrp);
 
-    FILE *fp;
-    fp = fopen("image.png", "wb");
+    // FILE *fp;
+    // fp = fopen("image.png", "wb");
 
-    if(NULL == fp)
-    {
-        printf("Error opening file");
-        return 1;
-    }
+    // if(NULL == fp)
+    // {
+    //     printf("Error opening file");
+    //     return 1;
+    // }
 
-    fseek(fp, 0, SEEK_END);
-    int size = ftell(fp);
-    fseek(fp, 0, SEEK_SET);
+    // fseek(fp, 0, SEEK_END);
+    // int size = ftell(fp);
+    // fseek(fp, 0, SEEK_SET);
 
-    /* Receive data in chunks of 256 bytes */
-    while((bytesReceived = read(connfd, recvBuff, 256)) > 0)
-    {
-        printf("Bytes received %d\n",bytesReceived);    
-        // recvBuff[n] = 0;
-        fwrite(recvBuff, 1,bytesReceived,fp);
-        // printf("%s \n", recvBuff);
+    // /* Receive data in chunks of 256 bytes */
+    // while((bytesReceived = read(connfd, recvBuff, 256)) > 0)
+    // {
+    //     printf("Bytes received %d\n",bytesReceived);    
+    //     // recvBuff[n] = 0;
+    //     fwrite(recvBuff, 1,bytesReceived,fp);
+    //     // printf("%s \n", recvBuff);
         
-    }
+    // }
 
-    fclose(fp);
+    // fclose(fp);
 
-    if(bytesReceived < 0)
-    {
-        printf("\n Read Error \n");
-    }
+    // if(bytesReceived < 0)
+    // {
+    //     printf("\n Read Error \n");
+    // }
 
-	//echo(connfd);
+	echo(connfd);
 	Close(connfd);
     }
     exit(0);

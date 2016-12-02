@@ -32,41 +32,49 @@ int main(int argc, char **argv)
             return 1;   
         }  
 
-    fseek(fp, 0, SEEK_END);
-    int size = ftell(fp);
+    // fseek(fp, 0, SEEK_END);
+    // int size = ftell(fp);
     fseek(fp, 0, SEEK_SET);
 
+    //sending image file
     while(1)
+    {
+        /* First read file in chunks of 256 bytes */
+        //printf("%d\n",size );
+        unsigned char buff[256];
+
+        int nread = fread(buff,1,256,fp);
+        printf("File read :%d bytes\n", nread);        
+
+        /* If read was success, send data. */
+        if(nread > 0)
         {
-            /* First read file in chunks of 256 bytes */
-            printf("%d\n",size );
-            unsigned char buff[256];
-
-            int nread = fread(buff,1,256,fp);
-            printf("Bytes read %d \n", nread);        
-
-            /* If read was success, send data. */
-            if(nread > 0)
-            {
-                printf("Sending \n");
-                write(clientfd, buff, nread);
-            }
-
-            /*
-             * There is something tricky going on with read .. 
-             * Either there was error, or we reached end of file.
-             */
-            if (nread < (256))
-            {
-                if (feof(fp))
-                    printf("End of file\n");
-                if (ferror(fp))
-                    printf("Error reading\n");
-                break;
-            }
-
-
+            //printf("Sending \n");
+            write(clientfd, buff, nread);
         }
+
+        /*
+         * There is something tricky going on with read .. 
+         * Either there was error, or we reached end of file.
+         */
+        if (nread < (256))
+        {
+            if (feof(fp))
+                printf("End of file\n");
+            if (ferror(fp))
+                printf("Error reading\n");
+            break;
+        }
+
+
+    }
+
+    //receive file from server
+    int bytesReceived = 0; 
+    char recvBuff[256]; 
+
+    
+
 
 
     Close(clientfd); //line:netp:echoclient:close
